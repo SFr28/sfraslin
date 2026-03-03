@@ -1,0 +1,26 @@
+# continous integration: check to see if the container's image exists
+
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Extract image name from YAML
+        id: extract 
+        run: |
+          IMAGE=$(grep 'image:' deployment.yaml | awk '{print $2}' | head -1)
+          echo "image=$IMAGE" >> $GITHUB_OUTPUT
+        
+      - name: Check image exists on Docker Hub
+        run: |
+          IMAGE="${{ steps.extract.outputs.image }}"
+          echo "Check of $IMAGE"
+          docker manifest inspect "$IMAGE"
