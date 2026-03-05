@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: wil-playground
-          image: wil42/playground:v42 #Change with V2 or incorrect image
+          image: wil42/playground:v2 #Change with V2 or incorrect image
           imagePullPolicy: Always
           ports:
             - containerPort: 8888
